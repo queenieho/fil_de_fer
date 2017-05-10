@@ -6,20 +6,11 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 10:49:39 by qho               #+#    #+#             */
-/*   Updated: 2017/02/06 21:50:24 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/09 23:44:43 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct	s_env
-{
-	void *mlx;
-	void *win;
-}				t_env;
+#include "fdf.h"
 
 void draw(void *mlx, void *win)
 {
@@ -32,7 +23,7 @@ void draw(void *mlx, void *win)
 		x = 100;
 		while (x < 200)
 		{
-			mlx_pixel_put(mlx, win, x, y, 0xFF0000);
+			mlx_pixel_put(mlx, win, x, y, 0xFF00FF);
 			x++;
 		}
 		y++;
@@ -66,7 +57,7 @@ int main()
 	t_env e;
 	
 	e.mlx = mlx_init();
-	e.win = mlx_new_window(e.mlx, 420, 420, "42");
+	e.win = mlx_new_window(e.mlx, 500, 500, "42");
 	// sleep(2);
 	// draw(e.mlx, e.win);
 	mlx_key_hook(e.win, key_hook, &e);
