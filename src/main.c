@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 10:49:39 by qho               #+#    #+#             */
-/*   Updated: 2017/05/12 11:09:21 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/12 14:16:05 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,42 @@ int		ft_load_raw_points(char *line, t_map *map)
 	values = ft_strsplit(line, ' ');
 	while (values[val_idx])
 	{
-		map->point[pt_idx].x = val_idx + 1;
-		map->point[pt_idx].y = row;
-		map->point[pt_idx].z = atoi(values[val_idx]);
+		map->point[pt_idx].raw_x = val_idx + 1;
+		if (map->m_width < map->point[pt_idx].raw_x)
+			map->m_width = map->point[pt_idx].raw_x;
+		map->point[pt_idx].raw_y = row;
+		map->point[pt_idx].raw_z = atoi(values[val_idx]);
 		pt_idx++;
 		val_idx++;
 	}
-	map->m_width = map->point[pt_idx].x;
 	map->m_height = row;
 	row++;
 	free(values);
 	return (0);
+}
+
+void	ft_load_points(t_map *map)
+{
+	int		idx;
+	int		y;
+
+	idx = 0;
+	y = map.point[idx].raw_y;
+	while (map.point[idx].raw_x != 0)
+	{
+		if (map.point[idx].raw_y != y)
+		{
+			y = map.point[idx].raw_y;
+			ft_putchar('\n');
+		}
+		ft_putnbr(map.point[idx].raw_x);
+		ft_putchar(',');
+		ft_putnbr(map.point[idx].raw_y);
+		ft_putchar(',');
+		ft_putnbr(map.point[idx].raw_z);
+		ft_putchar('\t');	
+		idx++;	
+	}
 }
 
 int		ft_get_map(char *filename, t_map *map)
@@ -93,6 +118,7 @@ int		ft_get_map(char *filename, t_map *map)
 	}
 	if (get_next_line(fd, &line) == -1)
 		return (-1);
+	ft_load_points(map);
 	return (0);
 }
 
@@ -101,8 +127,8 @@ void	ft_map_init(t_map *map)
 	int		idx;
 
 	idx = -1;
-	// map->mlx = mlx_init();
-	// map->window = mlx_new_window(map->mlx, 500, 500, "fdf");
+	map->mlx = mlx_init();
+	map->window = mlx_new_window(map->mlx, WIDTH, HEIGHT, "fdf");
 	map->m_width = 0;
 	map->m_height = 0;
 	while (++idx < 90000)
@@ -120,12 +146,12 @@ void	ft_print_map(t_map map)
 	int		y;
 
 	idx = 0;
-	y = map.point[idx].y;
-	while (map.point[idx].x != 0)
+	y = map.point[idx].raw_y;
+	while (map.point[idx].raw_x != 0)
 	{
-		if (map.point[idx].y != y)
+		if (map.point[idx].raw_y != y)
 		{
-			y = map.point[idx].y;
+			y = map.point[idx].raw_y;
 			ft_putchar('\n');
 		}
 		ft_putnbr(map.point[idx].raw_x);
@@ -149,6 +175,12 @@ int main(int ac, char **av)
 		// printf("getting map\n");
 		ft_map_init(&map);
 		WERR1((ft_get_map(av[1], &map) == -1), "issue getting map", -1);
+		ft_putstr("Width: ");
+		ft_putnbr(map.m_width);
+		ft_putchar('\n');
+		ft_putstr("Height: ");
+		ft_putnbr(map.m_height);
+		ft_putchar('\n');
 		ft_print_map(map);
 		// ft_get_map(av[1]);
 	}
@@ -161,7 +193,7 @@ int main(int ac, char **av)
 	// mlx_expose_hook(env.win, expose_hook, &env);
 	
 	// // sleep(5);
-	// mlx_loop(env.mlx);
+	mlx_loop(map.mlx);
 	return (0);
 }
 

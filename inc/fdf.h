@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 19:30:24 by qho               #+#    #+#             */
-/*   Updated: 2017/05/12 11:05:34 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/12 13:02:39 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 
-# define ROW_SIZE 300
-# define COL_SIZE 300
+# define WIDTH 1024
+# define HEIGHT 768
 
 # ifndef ERRORS
 #  define ERR(a, b) if(a){return(b);}
@@ -44,9 +44,9 @@ typedef struct	s_pt
 {
 	int			x;
 	int			y;
-	// int			raw_x;
-	// int			raw_y;
-	int			z;
+	int			raw_x;
+	int			raw_y;
+	int			raw_z;
 }				t_pt;
 
 typedef struct	s_map
