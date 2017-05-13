@@ -6,165 +6,35 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 10:49:39 by qho               #+#    #+#             */
-/*   Updated: 2017/05/12 14:16:05 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/12 23:07:10 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void draw(void *mlx, void *win)
+int		expose_hook(t_map *map)
 {
-	int x;
-	int y;
-
-	y = 100;
-	while (y < 200)
-	{
-		x = 100;
-		while (x < 200)
-		{
-			mlx_pixel_put(mlx, win, x, y, 0xFF00FF);
-			x++;
-		}
-		y++;
-	}
-}
-
-int expose_hook(t_env *e)
-{
-	draw(e->mlx, e->win);
+	draw_points(map);
 	return (0);
 }
 
-int key_hook(int keycode, t_env *e)
+int		key_hook(int keycode, t_map *map)
 {
-	(void) *e;
+	(void) *map;
 	printf("key: %d\n", keycode);
 	if (keycode == 53)
 		exit (0);
 	return (0);
 }
 
-int mouse_hook(int button, int x, int y, t_env *e)
+int		mouse_hook(int button, int x, int y, t_map *map)
 {
-	(void) *e;
+	(void) *map;
 	printf("mouse: %d (%d:%d)\n", button, x, y);
 	return (0);
 }
 
-int		ft_load_raw_points(char *line, t_map *map)
-{
-	// printf("loading points\n");
-	static int	pt_idx = 0;
-	static int	row = 1;
-	char		**values;
-	int			val_idx;
-
-	val_idx = 0;
-	values = ft_strsplit(line, ' ');
-	while (values[val_idx])
-	{
-		map->point[pt_idx].raw_x = val_idx + 1;
-		if (map->m_width < map->point[pt_idx].raw_x)
-			map->m_width = map->point[pt_idx].raw_x;
-		map->point[pt_idx].raw_y = row;
-		map->point[pt_idx].raw_z = atoi(values[val_idx]);
-		pt_idx++;
-		val_idx++;
-	}
-	map->m_height = row;
-	row++;
-	free(values);
-	return (0);
-}
-
-void	ft_load_points(t_map *map)
-{
-	int		idx;
-	int		y;
-
-	idx = 0;
-	y = map.point[idx].raw_y;
-	while (map.point[idx].raw_x != 0)
-	{
-		if (map.point[idx].raw_y != y)
-		{
-			y = map.point[idx].raw_y;
-			ft_putchar('\n');
-		}
-		ft_putnbr(map.point[idx].raw_x);
-		ft_putchar(',');
-		ft_putnbr(map.point[idx].raw_y);
-		ft_putchar(',');
-		ft_putnbr(map.point[idx].raw_z);
-		ft_putchar('\t');	
-		idx++;	
-	}
-}
-
-int		ft_get_map(char *filename, t_map *map)
-{
-	// printf("getting map?\n");
-	char	buf[BUFF_SIZE + 1];
-	int		fd;
-	char	*line;
-
-	ft_bzero((void *)buf, sizeof(char) * (BUFF_SIZE + 1));
-	fd = open(filename, O_RDONLY);
-	while (get_next_line(fd, &line) == 1)
-	{
-		ft_load_raw_points(line, map);
-		free(line);
-	}
-	if (get_next_line(fd, &line) == -1)
-		return (-1);
-	ft_load_points(map);
-	return (0);
-}
-
-void	ft_map_init(t_map *map)
-{
-	int		idx;
-
-	idx = -1;
-	map->mlx = mlx_init();
-	map->window = mlx_new_window(map->mlx, WIDTH, HEIGHT, "fdf");
-	map->m_width = 0;
-	map->m_height = 0;
-	while (++idx < 90000)
-	{
-		ft_memset((void *)&map->point[idx], 0, sizeof(t_pt));
-		// map->point[idx].x = 0;
-		// map->point[idx].y = 0;
-		// map->point[idx].z = 0;
-	}
-}
-
-void	ft_print_map(t_map map)
-{
-	int		idx;
-	int		y;
-
-	idx = 0;
-	y = map.point[idx].raw_y;
-	while (map.point[idx].raw_x != 0)
-	{
-		if (map.point[idx].raw_y != y)
-		{
-			y = map.point[idx].raw_y;
-			ft_putchar('\n');
-		}
-		ft_putnbr(map.point[idx].raw_x);
-		ft_putchar(',');
-		ft_putnbr(map.point[idx].raw_y);
-		ft_putchar(',');
-		ft_putnbr(map.point[idx].raw_z);
-		ft_putchar('\t');	
-		idx++;	
-	}
-}
-
-int main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_map	map;
 	
@@ -175,12 +45,9 @@ int main(int ac, char **av)
 		// printf("getting map\n");
 		ft_map_init(&map);
 		WERR1((ft_get_map(av[1], &map) == -1), "issue getting map", -1);
-		ft_putstr("Width: ");
-		ft_putnbr(map.m_width);
-		ft_putchar('\n');
-		ft_putstr("Height: ");
-		ft_putnbr(map.m_height);
-		ft_putchar('\n');
+		// ft_print_raw_map(map);
+		// ft_putchar('\n');
+		// ft_putchar('\n');
 		ft_print_map(map);
 		// ft_get_map(av[1]);
 	}
@@ -188,10 +55,9 @@ int main(int ac, char **av)
 	// env.win = mlx_new_window(env.mlx, 500, 500, "42");
 	// // sleep(2);
 	// // draw(env.mlx, env.win);
-	// mlx_key_hook(env.win, key_hook, &env);
-	// mlx_mouse_hook(env.win, mouse_hook, &env);
-	// mlx_expose_hook(env.win, expose_hook, &env);
-	
+	mlx_key_hook(map.window, key_hook, &map);
+	mlx_mouse_hook(map.window, mouse_hook, &map);
+	mlx_expose_hook(map.window, expose_hook, &map);
 	// // sleep(5);
 	mlx_loop(map.mlx);
 	return (0);

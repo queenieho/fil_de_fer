@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 19:30:24 by qho               #+#    #+#             */
-/*   Updated: 2017/05/12 13:02:39 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/12 23:16:05 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <math.h>
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 
@@ -57,5 +58,33 @@ typedef struct	s_map
 	int			m_height;
 	t_pt		point[90000];
 }				t_map;
+
+/*
+** FT_MAP_INIT_C
+*/
+int		ft_load_raw_points(char *line, t_map *map);
+void	ft_load_points(t_map *map);
+int		ft_get_map(char *filename, t_map *map);
+void	ft_map_init(t_map *map);
+
+/*
+** PRINT_MAP_C
+*/
+void	ft_print_raw_map(t_map map);
+void	ft_print_map(t_map map);
+
+/*
+** FT_DRAW_C
+*/
+void	draw_x(t_pt one, t_pt two, t_map *map);
+void	draw_lines(t_map *map);
+void	draw_points(t_map *map);
+
+
+/*
+** MAIN_C
+*/
+
+
 
 #endif
