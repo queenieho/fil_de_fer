@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 10:49:39 by qho               #+#    #+#             */
-/*   Updated: 2017/05/12 23:07:10 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/16 19:53:46 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,34 @@ int		mouse_hook(int button, int x, int y, t_map *map)
 	return (0);
 }
 
+int		ft_validate_filename(char *name, char *type)
+{
+	char	*end;
+
+	if ((end = ft_strstr(name, type)) == NULL)
+		return (-1);
+	else
+	{
+		if ((ft_strcmp(end, type)) != 0)
+			return (-1);
+	}
+	ft_putendl("valid file");
+	return (0);
+}
+
 int		main(int ac, char **av)
 {
 	t_map	map;
 	
 	if (ac > 2)
-		ft_putendl("usage: ./fdf [map_name]");
+		ft_putendl("usage: ./fdf [map_name].fdf");
 	else
 	{
 		// printf("getting map\n");
 		ft_map_init(&map);
-		WERR1((ft_get_map(av[1], &map) == -1), "issue getting map", -1);
+		WERR1((ft_validate_filename(av[1], ".fdf") == -1), "Invalid filename", -1);
+		WERR1((ft_get_map(av[1], &map) == -1), "Invalid map", -1);
+		ft_rotate_map(&map);
 		// ft_print_raw_map(map);
 		// ft_putchar('\n');
 		// ft_putchar('\n');

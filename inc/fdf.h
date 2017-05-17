@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 19:30:24 by qho               #+#    #+#             */
-/*   Updated: 2017/05/12 23:16:05 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/17 01:40:33 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,23 @@
 #  define WERR2(a, b, c, d) if(a){b;ft_putendl(c);return(d);}
 # endif
 
+typedef struct	s_val
+{
+	int			m;
+	double		adjust;
+	double		offset;
+	double		threshold;
+	double		delta;
+}				t_val;
+
+typedef struct	s_limit
+{
+	double		max_x;
+	double		min_x;
+	double		max_y;
+	double		min_y;
+}				t_limit;
+
 typedef struct	s_env
 {
 	void *mlx;
@@ -43,8 +60,8 @@ typedef struct	s_env
 
 typedef struct	s_pt
 {
-	int			x;
-	int			y;
+	int		x;
+	int		y;
 	int			raw_x;
 	int			raw_y;
 	int			raw_z;
@@ -62,8 +79,9 @@ typedef struct	s_map
 /*
 ** FT_MAP_INIT_C
 */
+int		ft_array_len(char **args);
 int		ft_load_raw_points(char *line, t_map *map);
-void	ft_load_points(t_map *map);
+int		ft_load_points(t_map *map);
 int		ft_get_map(char *filename, t_map *map);
 void	ft_map_init(t_map *map);
 
@@ -80,6 +98,11 @@ void	draw_x(t_pt one, t_pt two, t_map *map);
 void	draw_lines(t_map *map);
 void	draw_points(t_map *map);
 
+/*
+** ROTATE_MAP
+*/
+void	ft_rotate_map(t_map *map);
+void	ft_rotate_map_z(t_map *map);
 
 /*
 ** MAIN_C

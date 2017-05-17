@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 11:33:20 by qho               #+#    #+#             */
-/*   Updated: 2017/05/10 14:42:05 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/16 18:09:03 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ int			get_next_line(const int fd, char **line)
 	if (hold && *hold != '\0' && (*line = ft_strdup(hold)))
 	{
 		free(hold);
+		hold = NULL;
 		return (1);
 	}
-	free(hold);
-	hold = NULL;
 	return (0);
 }

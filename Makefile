@@ -6,7 +6,7 @@
 #    By: qho <qho@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/03 17:13:13 by qho               #+#    #+#              #
-#    Updated: 2017/05/12 23:16:23 by qho              ###   ########.fr        #
+#    Updated: 2017/05/16 19:48:21 by qho              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
 FRAME	=	-framework OpenGL -framework AppKit
 
-FILES	=	main ft_map_init ft_print_map ft_draw
+FILES	=	main ft_map_init ft_print_map ft_draw ft_rotate_map
 INC		=	./inc/
 SRC		=	$(addprefix src/, $(addsuffix .c, $(FILES)))
 OBJ		=	$(addprefix build/, $(SRCS:.c=.o))

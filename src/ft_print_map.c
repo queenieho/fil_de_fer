@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 21:53:00 by qho               #+#    #+#             */
-/*   Updated: 2017/05/12 21:54:43 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/16 19:52:32 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ void	ft_print_raw_map(t_map map)
 void	ft_print_map(t_map map)
 {
 	int		idx;
-	int		y;
+	int		x;
+	int		x_count;
 
 	idx = 0;
-	y = map.point[idx].y;
+	x = map.m_width;
+	x_count = 0;
 	ft_putstr("Width: ");
 	ft_putnbr(map.m_width);
 	ft_putchar('\n');
@@ -57,15 +59,16 @@ void	ft_print_map(t_map map)
 	ft_putchar('\n');
 	while (map.point[idx].x != 0)
 	{
-		if (map.point[idx].y != y)
+		if (x_count == x)
 		{
-			y = map.point[idx].y;
+			x_count = 0;
 			ft_putchar('\n');
 		}
 		ft_putnbr(map.point[idx].x);
 		ft_putchar(',');
 		ft_putnbr(map.point[idx].y);
 		ft_putstr("\t\t");	
+		x_count++;
 		// printf("point? %d,%d\t", map.point[idx].x, map.point[idx].y);
 		idx++;	
 	}
