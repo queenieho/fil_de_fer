@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 19:30:24 by qho               #+#    #+#             */
-/*   Updated: 2017/05/17 01:40:33 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/17 17:18:40 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,18 @@
 typedef struct	s_val
 {
 	int			m;
-	double		adjust;
-	double		offset;
-	double		threshold;
-	double		delta;
+	float		adjust;
+	float		offset;
+	float		threshold;
+	float		delta;
 }				t_val;
 
 typedef struct	s_limit
 {
-	double		max_x;
-	double		min_x;
-	double		max_y;
-	double		min_y;
+	float		max_x;
+	float		min_x;
+	float		max_y;
+	float		min_y;
 }				t_limit;
 
 typedef struct	s_env
@@ -60,8 +60,9 @@ typedef struct	s_env
 
 typedef struct	s_pt
 {
-	int		x;
-	int		y;
+	float		x;
+	float		y;
+	float		z;
 	int			raw_x;
 	int			raw_y;
 	int			raw_z;
@@ -73,7 +74,7 @@ typedef struct	s_map
 	void		*window;
 	int			m_width;
 	int			m_height;
-	t_pt		point[90000];
+	t_pt		**point;
 }				t_map;
 
 /*
@@ -83,7 +84,7 @@ int		ft_array_len(char **args);
 int		ft_load_raw_points(char *line, t_map *map);
 int		ft_load_points(t_map *map);
 int		ft_get_map(char *filename, t_map *map);
-void	ft_map_init(t_map *map);
+void	ft_map_init(t_map *map, char *filename);
 
 /*
 ** PRINT_MAP_C
@@ -107,6 +108,7 @@ void	ft_rotate_map_z(t_map *map);
 /*
 ** MAIN_C
 */
+void	ft_array_del(char **values);
 
 
 

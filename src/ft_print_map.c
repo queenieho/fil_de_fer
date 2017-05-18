@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 21:53:00 by qho               #+#    #+#             */
-/*   Updated: 2017/05/16 19:52:32 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/17 17:43:28 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,66 @@
 
 void	ft_print_raw_map(t_map map)
 {
-	int		idx;
-	int		y;
-
-	idx = 0;
-	y = map.point[idx].raw_y;
+	int		h_idx;
+	int		w_idx;
+	// int		y;
+	
+	h_idx = -1;
+	// y = map.point[idx].raw_y;
 	ft_putstr("Width: ");
 	ft_putnbr(map.m_width);
 	ft_putchar('\n');
 	ft_putstr("Height: ");
 	ft_putnbr(map.m_height);
 	ft_putchar('\n');
-	while (map.point[idx].raw_x != 0)
+	while (++h_idx < map.m_height)
 	{
-		if (map.point[idx].raw_y != y)
+		w_idx = -1;
+		while (++w_idx < map.m_width)
 		{
-			y = map.point[idx].raw_y;
-			ft_putchar('\n');
+			ft_putnbr(map.point[h_idx][w_idx].raw_x);
+			ft_putchar(',');
+			ft_putnbr(map.point[h_idx][w_idx].raw_y);
+			ft_putchar(',');
+			ft_putnbr(map.point[h_idx][w_idx].raw_z);
+			ft_putchar('\t');	
 		}
-		ft_putnbr(map.point[idx].raw_x);
-		ft_putchar(',');
-		ft_putnbr(map.point[idx].raw_y);
-		ft_putchar(',');
-		ft_putnbr(map.point[idx].raw_z);
-		ft_putchar('\t');	
-		idx++;	
+		ft_putchar('\n');
+	// 	// map->point[idx].x = 0;
+	// 	// map->point[idx].y = 0;
+	// 	// map->point[idx].z = 0;
 	}
 }
 
 void	ft_print_map(t_map map)
 {
-	int		idx;
-	int		x;
-	int		x_count;
-
-	idx = 0;
-	x = map.m_width;
-	x_count = 0;
+	int		h_idx;
+	int		w_idx;
+	// int		y;
+	
+	h_idx = -1;
+	// y = map.point[idx].raw_y;
 	ft_putstr("Width: ");
 	ft_putnbr(map.m_width);
 	ft_putchar('\n');
 	ft_putstr("Height: ");
 	ft_putnbr(map.m_height);
 	ft_putchar('\n');
-	while (map.point[idx].x != 0)
+	while (++h_idx < map.m_height)
 	{
-		if (x_count == x)
+		w_idx = -1;
+		while (++w_idx < map.m_width)
 		{
-			x_count = 0;
-			ft_putchar('\n');
+			ft_putnbr(map.point[h_idx][w_idx].x);
+			ft_putchar(',');
+			ft_putnbr(map.point[h_idx][w_idx].y);
+			ft_putchar(',');
+			ft_putnbr(map.point[h_idx][w_idx].z);
+			ft_putchar('\t');	
 		}
-		ft_putnbr(map.point[idx].x);
-		ft_putchar(',');
-		ft_putnbr(map.point[idx].y);
-		ft_putstr("\t\t");	
-		x_count++;
-		// printf("point? %d,%d\t", map.point[idx].x, map.point[idx].y);
-		idx++;	
+		ft_putchar('\n');
+	// 	// map->point[idx].x = 0;
+	// 	// map->point[idx].y = 0;
+	// 	// map->point[idx].z = 0;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 17:04:45 by qho               #+#    #+#             */
-/*   Updated: 2017/05/16 18:54:34 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/17 17:50:28 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,66 +31,59 @@ int		ft_array_len(char **args)
 int		ft_load_raw_points(char *line, t_map *map)
 {
 	// printf("loading points\n");
-	static int	pt_idx = 0;
-	static int	row = 1;
+	static int	r_idx = 0;
+	int			c_idx;
 	char		**values;
 	int			val_idx;
 
 	val_idx = 0;
+	c_idx = 0;
 	values = ft_strsplit(line, ' ');
-	if (row == 1)
-		map->m_width = ft_array_len(values);
-	else if (map->m_width != ft_array_len(values))
-		return (-1);
-	while (values[val_idx])
+	while (val_idx < map->m_width)
 	{
-		map->point[pt_idx].raw_x = val_idx + 1;
-		map->point[pt_idx].raw_y = row;
-		map->point[pt_idx].raw_z = atoi(values[val_idx]);
-		pt_idx++;
+		printf("%d: %s\n", val_idx, values[val_idx]);
+		map->point[r_idx][c_idx].raw_x = val_idx + 1;
+		map->point[r_idx][c_idx].raw_y = r_idx + 1;
+		map->point[r_idx][c_idx].raw_z = ft_atoi(values[val_idx]);
+		c_idx++;
 		val_idx++;
 	}
-	map->m_height = row;
-	row++;
+	r_idx++;
 	// ft_putendl("here?");
-	free(values);
+	ft_array_del(values);
 	return (0);
 }
 
 int		ft_load_points(t_map *map)
 {
-	int		idx;
-	int		x;
-	int		y;
+	int		r;
+	int		c;
+	float	x;
+	float	y;
+	float	inc;
 
-	idx = 0;
-	if (map->m_height == 0 && map->m_width == 0)
-		return (-1);
+	r = -1;
 	x = (WIDTH - 200)/(map->m_width + 1);
 	y = (HEIGHT - 200)/(map->m_height + 1);
-	// y = map.point[idx].raw_y;
+	inc = x < y? x : y;
 	ft_putstr("Width increment: ");
 	ft_putnbr(x);
 	ft_putchar('\n');
 	ft_putstr("Height increment: ");
 	ft_putnbr(y);
 	ft_putchar('\n');
-	while (map->point[idx].raw_x != 0)
+	while (++r < map->m_height)
 	{
-		map->point[idx].x = (map->point[idx].raw_x * x) + 100;
-		map->point[idx].y = (map->point[idx].raw_y * y) + 100;
-		// if (map.point[idx].raw_y != y)
-		// {
-		// 	y = map.point[idx].raw_y;
-		// 	ft_putchar('\n');
-		// }
-		// ft_putnbr(map.point[idx].raw_x);
-		// ft_putchar(',');
-		// ft_putnbr(map.point[idx].raw_y);
-		// ft_putchar(',');
-		// ft_putnbr(map.point[idx].raw_z);
-		// ft_putchar('\t');	
-		idx++;	
+		c = -1;
+		while (++c < map->m_width)
+		{
+			map->point[r][c].x = (map->point[r][c].raw_x * inc) + 100;
+			map->point[r][c].y = (map->point[r][c].raw_y * inc) + 100;
+			if (map->point[r][c].raw_z != 0)
+				map->point[r][c].z = (map->point[r][c].raw_z * inc) / map->point[r][c].raw_z;
+			else
+				map->point[r][c].z = 0;
+		}
 	}
 	return (0);
 }
@@ -106,8 +99,6 @@ int		ft_get_map(char *filename, t_map *map)
 	fd = open(filename, O_RDONLY);
 	while (get_next_line(fd, &line) == 1)
 	{
-		// ft_putendl("theres a line");
-		// ft_putendl(line);
 		if ((ft_load_raw_points(line, map)) == -1)
 			return (-1);
 		free(line);
@@ -116,23 +107,27 @@ int		ft_get_map(char *filename, t_map *map)
 		return (-1);
 	if (ft_load_points(map) == -1)
 		return (-1);
+	close(fd);
 	return (0);
 }
 
-void	ft_map_init(t_map *map)
+void	ft_map_init(t_map *map, char *filename)
 {
-	int		idx;
+	int		h_idx;
+	int		w_idx;
 
-	idx = -1;
+	h_idx = -1;
 	map->mlx = mlx_init();
-	map->window = mlx_new_window(map->mlx, WIDTH, HEIGHT, "fdf");
-	map->m_width = 0;
-	map->m_height = 0;
-	while (++idx < 90000)
+	map->window = mlx_new_window(map->mlx, WIDTH, HEIGHT, filename);
+	map->point = (t_pt **)malloc(sizeof(t_pt *) * map->m_height);
+	while (++h_idx < map->m_height)
 	{
-		ft_memset((void *)&map->point[idx], 0, sizeof(t_pt));
-		// map->point[idx].x = 0;
-		// map->point[idx].y = 0;
-		// map->point[idx].z = 0;
+		w_idx = -1;
+		map->point[h_idx] = (t_pt *)malloc(sizeof(t_pt) * map->m_width);
+		while (++w_idx < map->m_width)
+			ft_memset((void *)&map->point[h_idx][w_idx], 0, sizeof(t_pt));
+	// 	// map->point[idx].x = 0;
+	// 	// map->point[idx].y = 0;
+	// 	// map->point[idx].z = 0;
 	}
 }
