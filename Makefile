@@ -6,7 +6,7 @@
 #    By: qho <qho@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/03 17:13:13 by qho               #+#    #+#              #
-#    Updated: 2017/05/18 17:52:48 by qho              ###   ########.fr        #
+#    Updated: 2017/05/19 12:08:01 by qho              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
 FRAME	=	-framework OpenGL -framework AppKit
 
-FILES	=	main ft_map_init ft_print_map ft_draw ft_rotate_map ft_get_map \
+FILES	=	main ft_map_init ft_draw ft_rotate_map ft_get_map \
 			ft_adjust_map ft_draw_line
 INC		=	./inc/
 SRC		=	$(addprefix src/, $(addsuffix .c, $(FILES)))

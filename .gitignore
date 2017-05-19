@@ -38,3 +38,4 @@ minilibx_macos/**
 minilibx_macos_cap/**
 
 */*.o
+src/ft_print_map.c

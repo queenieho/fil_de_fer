@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 17:35:52 by qho               #+#    #+#             */
-/*   Updated: 2017/05/18 17:46:34 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/19 12:34:29 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,8 @@ static void	ft_find_limits(t_limit *l, t_map *map)
 
 	r = -1;
 	pt = map->point;
-	// (void)map;
-	// ft_bzero(l, sizeof(t_limit));
 	if (pt[0][0].x != 0)
 		ft_init_limits(pt[0][0], l);
-	// printf("max X: %f\n", l->max_x);
-	// printf("max Y: %f\n", l->max_y);
-	// printf("min X: %f\n", l->min_x);
-	// printf("min Y: %f\n\n\n", l->min_y);
 	while (++r < map->m_height)
 	{
 		c = -1;
@@ -51,10 +45,6 @@ static void	ft_find_limits(t_limit *l, t_map *map)
 				l->min_y = pt[r][c].y;
 		}
 	}
-	printf("max X: %f\n", l->max_x);
-	printf("max Y: %f\n", l->max_y);
-	printf("min X: %f\n", l->min_x);
-	printf("min Y: %f\n", l->min_y);
 }
 
 void		ft_adjust_map(t_map *map)
@@ -74,8 +64,10 @@ void		ft_adjust_map(t_map *map)
 		c = -1;
 		while (++c < map->m_width)
 		{
-			map->point[r][c].x = round((map->point[r][c].x - l.min_x) + ((WIDTH - width) / 2));
-			map->point[r][c].y = round((map->point[r][c].y - l.min_y) + ((HEIGHT - height) / 2));
+			map->point[r][c].x =
+			round((map->point[r][c].x - l.min_x) + ((WIDTH - width) / 2));
+			map->point[r][c].y =
+			round((map->point[r][c].y - l.min_y) + ((HEIGHT - height) / 2));
 		}
 	}
 }
