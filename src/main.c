@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/06 10:49:39 by qho               #+#    #+#             */
-/*   Updated: 2017/05/17 17:45:42 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/18 17:26:13 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@ void	ft_cleanup_and_exit(t_map *map)
 	{
 		w_idx = -1;
 		free(map->point[h_idx]);
-		// while (++w_idx < map.m_width)
-			// free(map.point[h_idx][w_idx]);
 	}
 	free(map->point);
-	// exit (0);
+	exit (0);
 }
 
 int		expose_hook(t_map *map)
@@ -42,7 +40,7 @@ int		key_hook(int keycode, t_map *map)
 	printf("key: %d\n", keycode);
 	if (keycode == 53)
 		ft_cleanup_and_exit(map);
-		exit (0);
+		// exit (0);
 	return (0);
 }
 
@@ -113,23 +111,27 @@ int		main(int ac, char **av)
 	t_map	map;
 	
 	if (ac > 2)
-		ft_putendl("usage: ./fdf [map_name].fdf");
-	else
 	{
-		// printf("getting map\n");
-		WERR1((ft_validate_filename(av[1], ".fdf") == -1), "Invalid filename", -1);
-		WERR1((ft_validate_map(av[1], &map) == -1), "Invalid map", -1);
-		WERR1((map.m_width == 0 && map.m_height == 0), "Empty map", -1);
-		printf("width: %d, height: %d\n", map.m_width, map.m_height);
-		ft_map_init(&map, av[1]);
-		printf("map inited\n");
-		WERR1((ft_get_map(av[1], &map) == -1), "Invalid map", -1);
-		// ft_rotate_map(&map);
-		ft_print_raw_map(map);
-		ft_putchar('\n');
-		ft_putchar('\n');
-		ft_print_map(map);
+		ft_putendl("usage: ./fdf [map_name].fdf");
+		return (0);
 	}
+	// printf("getting map\n");
+	WERR1((ft_validate_filename(av[1], ".fdf") == -1), "Invalid filename", -1);
+	WERR1((ft_validate_map(av[1], &map) == -1), "Invalid map", -1);
+	WERR1((map.m_width == 0 && map.m_height == 0), "Empty map", -1);
+	// printf("width: %d, height: %d\n", map.m_width, map.m_height);
+	ft_map_init(&map, av[1]);
+	// printf("map inited\n");
+	WERR1((ft_get_map(av[1], &map) == -1), "Invalid map", -1);
+	// ft_print_raw_map(map);
+	// ft_putchar('\n');
+	// ft_putchar('\n');
+	// ft_print_map(map);
+	ft_rotate_map(&map);
+	// ft_putchar('\n');
+	// ft_putchar('\n');
+	ft_print_map(map);
+
 	// env.mlx = mlx_init();
 	// env.win = mlx_new_window(env.mlx, 500, 500, "42");
 	// // sleep(2);

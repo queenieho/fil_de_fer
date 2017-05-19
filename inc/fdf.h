@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 19:30:24 by qho               #+#    #+#             */
-/*   Updated: 2017/05/17 17:18:40 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/18 17:52:39 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "../libft/libft.h"
 
 # define WIDTH 1024
-# define HEIGHT 768
+# define HEIGHT 1024
 
 # ifndef ERRORS
 #  define ERR(a, b) if(a){return(b);}
@@ -37,7 +37,7 @@
 
 typedef struct	s_val
 {
-	int			m;
+	float		m;
 	float		adjust;
 	float		offset;
 	float		threshold;
@@ -66,6 +66,7 @@ typedef struct	s_pt
 	int			raw_x;
 	int			raw_y;
 	int			raw_z;
+	int			color;
 }				t_pt;
 
 typedef struct	s_map
@@ -74,16 +75,23 @@ typedef struct	s_map
 	void		*window;
 	int			m_width;
 	int			m_height;
+	int			z_max;
+	int			z_min;
 	t_pt		**point;
 }				t_map;
+
+/*
+** FT_GET_MAP_C
+*/
+// static void	ft_find_z_limit(t_map *map, int	z);
+// static int	ft_load_raw_points(char *line, t_map *map);
+// static int	ft_load_points(t_map *map);
+int			ft_get_map(char *filename, t_map *map);
 
 /*
 ** FT_MAP_INIT_C
 */
 int		ft_array_len(char **args);
-int		ft_load_raw_points(char *line, t_map *map);
-int		ft_load_points(t_map *map);
-int		ft_get_map(char *filename, t_map *map);
 void	ft_map_init(t_map *map, char *filename);
 
 /*
@@ -95,15 +103,32 @@ void	ft_print_map(t_map map);
 /*
 ** FT_DRAW_C
 */
-void	draw_x(t_pt one, t_pt two, t_map *map);
-void	draw_lines(t_map *map);
+void	draw_row_lines(t_map *map);
+void	draw_col_lines(t_map *map);
 void	draw_points(t_map *map);
+
+/*
+** FT_DRAW_LINE_C
+*/
+void	ft_draw_vertical(t_pt one, t_pt two, t_map *map);
+void	ft_draw_x_slope(t_val v, t_pt one, t_pt two, t_map *map);
+void	ft_draw_y_slope(t_val v, t_pt one, t_pt two, t_map *map);
+void	draw_line(t_pt one, t_pt two, t_map *map);
+
+/*
+** FT_ADJUST_MAP_C
+*/
+// static void	ft_init_limits(t_pt pt, t_limit *l);
+// static void	ft_find_limits(t_limit *l, t_map *map);
+void		ft_adjust_map(t_map *map);
 
 /*
 ** ROTATE_MAP
 */
-void	ft_rotate_map(t_map *map);
 void	ft_rotate_map_z(t_map *map);
+void	ft_rotate_map_x(t_map *map);
+void	ft_rotate_map_y(t_map *map);
+void	ft_rotate_map(t_map *map);
 
 /*
 ** MAIN_C
