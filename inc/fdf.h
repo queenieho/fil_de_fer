@@ -6,7 +6,7 @@
 /*   By: qho <qho@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 19:30:24 by qho               #+#    #+#             */
-/*   Updated: 2017/05/19 12:37:52 by qho              ###   ########.fr       */
+/*   Updated: 2017/05/19 12:40:48 by qho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ void			draw_line(t_pt one, t_pt two, t_map *map);
 /*
 ** FT_ADJUST_MAP_C
 */
-static void		ft_init_limits(t_pt pt, t_limit *l);
-static void		ft_find_limits(t_limit *l, t_map *map);
 void			ft_adjust_map(t_map *map);
 
 /*
